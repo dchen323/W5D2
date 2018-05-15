@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  get 'subs/index'
+  get 'subs/show'
+  get 'subs/new'
+  get 'subs/edit'
+  resources :users, only: [:new, :create]
+  resource :session, only: [:new, :create, :destroy]
+  
+  
+  resources :subs, except: [:destroy]
+  
+  root 'subs#index'
+  
 end

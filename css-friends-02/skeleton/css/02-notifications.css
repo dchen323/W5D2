@@ -29,7 +29,7 @@
 
 .dropdown li {
   border-top: 1px solid #ccc;
-  overflow: hidden;
+  overflow: scroll;
   max-width: 300px;
   top: 0
 }
