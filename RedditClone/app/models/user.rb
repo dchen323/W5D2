@@ -17,9 +17,17 @@ class User < ApplicationRecord
   attr_reader :password
   before_validation :ensure_token
   
-  has_many :subs,
+  has_many :moderated_subs,
     foreign_key: :moderator_id,
     class_name: :Sub
+    
+  has_many :posts,
+    foreign_key: :author_id,
+    class_name: :Post
+    
+  has_many :moderated_posts,
+    through: :moderated_subs,
+    source: :posts
   
   def ensure_token
     self.session_token ||= self.class.generate_token

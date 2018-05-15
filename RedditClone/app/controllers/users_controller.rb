@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     render :new
   end
 
-  def created
+  def create
     @user = User.new(user_params)
     
     if @user.save

@@ -1,6 +1,5 @@
 class SubsController < ApplicationController
-  before_action :require_log_in
-  before_action :is_mod, only: [:edit, :update]
+  before_action :require_log_in, except: [:index, :show ]
   
   def index
     @subs = Sub.all
@@ -34,8 +33,11 @@ class SubsController < ApplicationController
   end
   
   def update
-    @sub = current_user.subs.find(params[:id])
-    if @sub.update(sub_params)
+    @sub = current_user.moderated_subs.find_by(id: params[:id])
+    if @sub.nil?
+      flash[:notice] = ["You may not edit subs or posts for which you are not the moderator."]
+      redirect_to :root
+    elsif @sub.update(sub_params)
       redirect_to sub_url(@sub)
     else
       flash.now[:errors] = @sub.errors.full_messages
@@ -48,11 +50,5 @@ class SubsController < ApplicationController
   def sub_params
     params.require(:sub).permit(:title,:description)
   end
-  
-  def is_mod
-    unless self.moderator_id == current_user.id   # unless current_user.subs.include?(self)
-      flash[:notice] = ["You may not edit subs for which you are not the moderator."]
-      redirect_to :root
-    end
-  end
+
 end

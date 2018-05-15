@@ -1,2 +1,18 @@
-<h1>Subs#show</h1>
-<p>Find me in app/views/subs/show.html.erb</p>
+<h2><%=@sub.title%></h2>
+<ul>
+  <li>Moderator : <%=@sub.moderator.username%></li>
+  <li>Description : <%=@sub.description%></li>
+  <li> Post : </li>
+  <ul>
+  <% @sub.posts.each do |post| %>
+    <li><%=link_to post.title, post_url(post)%></li>
+  <% end %>
+  </ul>
+</ul>
+
+
+<%= link_to 'New Post', new_post_url %>
+<br>
+<% if @sub.moderator.id == current_user.id  %>
+  <%= link_to 'Edit Sub', edit_sub_url(@sub) %>
+<% end %>
