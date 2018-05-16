@@ -29,4 +29,7 @@ class Post < ApplicationRecord
   has_many :moderators, #might not be needed yet
     through: :subs,
     source: :moderator
+    
+  has_many :comments,
+    dependent: :destroy
 end

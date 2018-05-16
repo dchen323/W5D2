@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   
   
   resources :subs, except: [:destroy] 
-  resources :posts, except: [:index] 
+  resources :posts, except: [:index] do
+    resources :comments, only: [:new, :create]
+  end
+  
+  resources :comments, only: [:edit, :update, :destroy]
   
   root 'subs#index'
   

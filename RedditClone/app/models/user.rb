@@ -28,6 +28,9 @@ class User < ApplicationRecord
   has_many :moderated_posts,
     through: :moderated_subs,
     source: :posts
+    
+  has_many :comments,
+    foreign_key: :author_id
   
   def ensure_token
     self.session_token ||= self.class.generate_token
